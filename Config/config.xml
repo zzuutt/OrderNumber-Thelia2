@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+
+    <loops>
+        <loop name="ordernumber.check.rights" class="OrderNumber\Loop\CheckRightsLoop"/>
+    </loops>
+
+    <forms>
+      <form name="ordernumber.configure" class="OrderNumber\Form\ConfigureFormulaire"/>
+    </forms>
+
+    <commands>
+    </commands>
+
+    <services>
+        <service id="module.action.OrderNumber" class="OrderNumber\EventListeners\OrderNumberEventListener">
+            <tag name="kernel.event_subscriber" />
+        </service>
+    </services>
+</config>
