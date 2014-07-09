@@ -57,6 +57,16 @@ class ConfigureFormulaire extends BaseForm
                     new Constraints\NotBlank()
                 )
             ))
+            ->add('InvoicePersonalValue', 'text', array(
+                'label' => Translator::getInstance()->trans('InvoicePersonalValue'),
+                'label_attr' => array(
+                    'for' => 'InvoicePersonalValue'
+                ),
+                'data' => (null === $values ?'':$values["INVOICENUMBER_PERSONALVALUE"]),
+                'constraints' => array(
+                    new Constraints\NotBlank()
+                )
+            ))
         ;
     }
 }
