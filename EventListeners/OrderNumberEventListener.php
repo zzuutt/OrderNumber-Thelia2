@@ -22,6 +22,7 @@ class OrderNumberEventListener implements EventSubscriberInterface
         $order = $event->getOrder();
         $id = $order->getId();
         Tlog::getInstance()->debug("Mask nunmero facture :".$maskneworder['ORDERNUMBER_PERSONALVALUE']);
+        Tlog::getInstance()->debug("Mask nunmero facture :".$maskneworder['INVOICENUMBER_PERSONALVALUE']);
         Tlog::getInstance()->debug("Numero de facture :".$order->getId());
         
         $neworder = str_replace('{id}', $id, $maskneworder['ORDERNUMBER_PERSONALVALUE']);
@@ -36,7 +37,21 @@ class OrderNumberEventListener implements EventSubscriberInterface
                         if($m[4] == 'BOTH') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_BOTH);
                     }, $neworder);
         $nouvelleRef = $neworder;
-        $order->setref($nouvelleRef)->save();
+        
+        $newinvoice = str_replace('{id}', $id, $maskneworder['INVOICENUMBER_PERSONALVALUE']);
+        $newinvoice = preg_replace_callback('/{Date[(](.*?)[)]}/',
+                    function ($m) {
+                        return Date($m[1]);                    
+                    },$newinvoice);
+        $newinvoice = preg_replace_callback('/{PadStr\(([a-zA-Z0-9.\/\\-]+),([0-9]+),(.*),(RIGHT|LEFT|BOTH)\)}/', 
+                    function ($m) { 
+                        if($m[4] == 'LEFT') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_LEFT);
+                        if($m[4] == 'RIGHT') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_RIGHT);
+                        if($m[4] == 'BOTH') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_BOTH);
+                    }, $newinvoice);
+        $nouvelleinvoiceRef = $newinvoice;
+        
+        $order->setref($nouvelleRef)->setInvoiceRef($nouvelleinvoiceRef)->save();
     }
 
     /**
