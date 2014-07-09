@@ -1,7 +1,11 @@
-#OrderNumber-Thelia2
+#OrderNumber + InvoiceNumber v1.20
 
 ##Summary
-Personnalisation de votre numéro de facture
+Personnalisation du numéro du bon de commande et du numéro de facture
+Dans les boucle {loop type="order"} pensez à utiliser la variable {$INVOICE_REF}
+pour utiliser votre numéro de facture personnalisé
+
+{$REF} correspond à votre numéro de commande
 
 Français (fr_FR)
 
