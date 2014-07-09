@@ -17,6 +17,7 @@ class OrderNumberAdminSave extends BaseAdminController
             $form = new ConfigureFormulaire($this->getRequest());
             $vform = $this->validateForm($form);
     		$conf->setORDERNUMBERPERSONALVALUE($vform->get('PersonalValue')->getData())
+    		->setINVOICENUMBERPERSONALVALUE($vform->get('InvoicePersonalValue')->getData())
                     ->write(OrderNumber::JSON_CONFIG_PATH);
         $this->redirectToRoute("admin.module.configure",array(),
         array ( 'module_code'=>"OrderNumber",
