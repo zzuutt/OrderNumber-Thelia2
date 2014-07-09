@@ -13,5 +13,5 @@ interface ConfigInterface
      * @return OrderNumber\Model\ConfigInterface
      */
     public function setORDERNUMBERPERSONALVALUE($ORDERNUMBER_PERSONALVALUE);
-
+    public function setINVOICENUMBERPERSONALVALUE($INVOICENUMBER_PERSONALVALUE);
 }
