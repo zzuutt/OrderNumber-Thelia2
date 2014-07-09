@@ -77,5 +77,10 @@ class Config implements ConfigInterface
         return $this;
     }
 
+    public function setINVOICENUMBERPERSONALVALUE($INVOICENUMBER_PERSONALVALUE)
+    {
+        $this->INVOICENUMBER_PERSONALVALUE = $INVOICENUMBER_PERSONALVALUE;
 
+        return $this;
+    }
 }
