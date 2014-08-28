@@ -6,7 +6,7 @@
 /*************************************************************************************/
 
 namespace OrderNumber;
-use Cbatos\Model\Config;
+use OrderNumber\Model\Config;
 use Thelia\Module\BaseModule;
 use Thelia\Core\Translation\Translator;
 
