@@ -53,6 +53,6 @@ Next, go to your Thelia admin panel for module activation.
 ### Configure the module
 
 Before using this module you first need to configure the mask of your order number and invoice number in the module configuration page OrderNumber.
-The invoice number is generate when the order status change in to paid.
+The invoice number is generate when the order status changes in to paid.
 
 
