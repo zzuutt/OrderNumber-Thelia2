@@ -12,6 +12,8 @@ use Thelia\Core\Event\Order\OrderEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Log\Tlog;
 use OrderNumber\Model\Config;
+use Thelia\Model\OrderStatus;
+use Thelia\Model\OrderStatusQuery;
 
 class OrderNumberEventListener implements EventSubscriberInterface
 {
@@ -21,9 +23,8 @@ class OrderNumberEventListener implements EventSubscriberInterface
         $maskneworder = Config::read(OrderNumber::JSON_CONFIG_PATH);
         $order = $event->getOrder();
         $id = $order->getId();
-        Tlog::getInstance()->debug("Mask nunmero facture :".$maskneworder['ORDERNUMBER_PERSONALVALUE']);
-        Tlog::getInstance()->debug("Mask nunmero facture :".$maskneworder['INVOICENUMBER_PERSONALVALUE']);
-        Tlog::getInstance()->debug("Numero de facture :".$order->getId());
+        Tlog::getInstance()->debug("Mask nunmero commande :".$maskneworder['ORDERNUMBER_PERSONALVALUE']);
+        Tlog::getInstance()->debug("Numero de commande :".$order->getId());
         
         $neworder = str_replace('{id}', $id, $maskneworder['ORDERNUMBER_PERSONALVALUE']);
         $neworder = preg_replace_callback('/{Date[(](.*?)[)]}/',
@@ -38,22 +39,41 @@ class OrderNumberEventListener implements EventSubscriberInterface
                     }, $neworder);
         $nouvelleRef = $neworder;
         
-        $newinvoice = str_replace('{id}', $id, $maskneworder['INVOICENUMBER_PERSONALVALUE']);
-        $newinvoice = preg_replace_callback('/{Date[(](.*?)[)]}/',
-                    function ($m) {
-                        return Date($m[1]);                    
-                    },$newinvoice);
-        $newinvoice = preg_replace_callback('/{PadStr\(([a-zA-Z0-9.\/\\-]+),([0-9]+),(.*),(RIGHT|LEFT|BOTH)\)}/', 
-                    function ($m) { 
-                        if($m[4] == 'LEFT') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_LEFT);
-                        if($m[4] == 'RIGHT') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_RIGHT);
-                        if($m[4] == 'BOTH') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_BOTH);
-                    }, $newinvoice);
-        $nouvelleinvoiceRef = $newinvoice;
         
-        $order->setref($nouvelleRef)->setInvoiceRef($nouvelleinvoiceRef)->save();
+        $order->setref($nouvelleRef)->save();
     }
-
+    
+    public function updateInvoiceNumber(OrderEvent $event)
+    {
+        $maskneworder = Config::read(OrderNumber::JSON_CONFIG_PATH);
+        $order = $event->getOrder();
+        $paidStatusId = OrderStatusQuery::create()
+            ->filterByCode(OrderStatus::CODE_PAID)
+            ->select('Id')
+            ->findOne();
+        $id = $order->getId();
+        
+        if($event->getStatus() == $paidStatusId) {
+          Tlog::getInstance()->debug("Mask nunmero facture :".$maskneworder['INVOICENUMBER_PERSONALVALUE']);
+          Tlog::getInstance()->debug("Numero de commande :".$order->getId());
+          
+          
+          $newinvoice = str_replace('{id}', $id, $maskneworder['INVOICENUMBER_PERSONALVALUE']);
+          $newinvoice = preg_replace_callback('/{Date[(](.*?)[)]}/',
+                      function ($m) {
+                          return Date($m[1]);                    
+                      },$newinvoice);
+          $newinvoice = preg_replace_callback('/{PadStr\(([a-zA-Z0-9.\/\\-]+),([0-9]+),(.*),(RIGHT|LEFT|BOTH)\)}/', 
+                      function ($m) { 
+                          if($m[4] == 'LEFT') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_LEFT);
+                          if($m[4] == 'RIGHT') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_RIGHT);
+                          if($m[4] == 'BOTH') return str_pad($m[1],$m[2],"$m[3]",STR_PAD_BOTH);
+                      }, $newinvoice);
+          $nouvelleinvoiceRef = $newinvoice;
+          
+          $order->setInvoiceRef($nouvelleinvoiceRef)->save();
+        }
+    }
     /**
      * Returns an array of event names this subscriber wants to listen to.
      *
@@ -77,7 +97,8 @@ class OrderNumberEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            TheliaEvents::ORDER_AFTER_CREATE => ['updateOrderNumber', 128]
+            TheliaEvents::ORDER_AFTER_CREATE => ['updateOrderNumber', 128],
+            TheliaEvents::ORDER_UPDATE_STATUS => ['updateInvoiceNumber', 128]
         );
     }
 }
