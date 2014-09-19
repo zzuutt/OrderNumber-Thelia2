@@ -1,5 +1,5 @@
-#OrderNumber + InvoiceNumber v1.20
-######Compatible Version 2.0.2 - Mise à jour le 09/07/2014######
+#OrderNumber + InvoiceNumber v1.30
+######Compatible Version 2.0.3 - Mise à jour le 09/07/2014######
 ##Summary
 Personnalisation du numéro du bon de commande et du numéro de facture
 
@@ -32,8 +32,9 @@ Ce module doit être dans votre dossier ```modules/``` (thelia/local/modules/).
 Puis, allez dans votre Back-office Thelia pour activer ce module.
 
 ### Configuration
-Pour pouvoir utiliser ce module, vous devez d'abord entrer le mask de votre numéro de facture dans
+Pour pouvoir utiliser ce module, vous devez d'abord entrer le mask de votre numéro de commande et de facture dans
 la page de configuration du module OrderNumber.
+Le numero de facture est generé quand la commande passe à payée.
 
 ###Commandes disponibles
 
@@ -51,6 +52,7 @@ Next, go to your Thelia admin panel for module activation.
 
 ### Configure the module
 
-Before using this module you first need to configure the mask of your invoice number in the module configuration page OrderNumber.
+Before using this module you first need to configure the mask of your order number and invoice number in the module configuration page OrderNumber.
+The invoice number is generate when the order status change in to paid.
 
 
