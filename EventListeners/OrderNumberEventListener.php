@@ -53,7 +53,7 @@ class OrderNumberEventListener implements EventSubscriberInterface
             ->findOne();
         $id = $order->getId();
         
-        if($event->getStatus() == $paidStatusId) {
+        if ($order->isPaid() && null === $order->getInvoiceRef()) {
           Tlog::getInstance()->debug("Mask nunmero facture :".$maskneworder['INVOICENUMBER_PERSONALVALUE']);
           Tlog::getInstance()->debug("Numero de commande :".$order->getId());
           
