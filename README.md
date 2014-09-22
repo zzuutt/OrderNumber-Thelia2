@@ -1,4 +1,4 @@
-#OrderNumber + InvoiceNumber v1.30
+#OrderNumber + InvoiceNumber v1.31
 ######Compatible Version 2.0.3 - Mise à jour le 19/09/2014######
 ##Summary
 Personnalisation du numéro du bon de commande et du numéro de facture
