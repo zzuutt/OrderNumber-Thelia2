@@ -7,5 +7,5 @@
 
 ###### BIENTOT DISPONIBLE   ######
 
-Laissez moi un message pour lavoir de suite, je n'ai pas eu le temps de les mettre sur GitHub
+Laissez moi un message pour l'avoir de suite, je n'ai pas eu le temps de les mettre sur GitHub
 
