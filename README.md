@@ -1,5 +1,8 @@
 #OrderNumber + InvoiceNumber v1.31
-######Compatible Version 2.0.3 - Mise à jour le 22/09/2014######
+######MODULE DIVISE EN 2    ######
+######-- MODULE ORDERREF    ######
+######-- MODULE INVOICEREF  ######
+###### + MODULE CUSTOMERREF ######
 ##Summary
 Personnalisation du numéro du bon de commande et du numéro de facture
 
